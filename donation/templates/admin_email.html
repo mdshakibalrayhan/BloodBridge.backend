@@ -1,0 +1,27 @@
+<h3>
+  Hi there {{user.user_account.first_name}} {{user.user_account.last_name}},
+</h3>
+<p>
+  Your request to donate blood at the event <strong>{{event.title}}</strong> has
+  been accepted! We truly appreciate your willingness to help save lives.
+</p>
+<p><strong>Event Details:</strong></p>
+<ul>
+  <li><strong>Event Name:</strong> {{event.title}}</li>
+  <li><strong>Location:</strong> {{event.location}}</li>
+  <li><strong>Blood Group Needed:</strong> {{event.blood_group}}</li>
+  <li><strong>Date and Time:</strong> {{event.time}}</li>
+</ul>
+<p>
+  Please make sure to arrive on time and bring your ID card for verification. If
+  you have any questions or concerns, feel free to contact us at
+  <strong>bloodbridge@gmail.com</strong>.
+</p>
+
+<p>
+  Thank you once again for your generosity and for being a hero to someone in
+  need!
+</p>
+<p>Warm regards,</p>
+
+<p><strong>BloodBridge Team</strong></p>
