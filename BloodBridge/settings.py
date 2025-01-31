@@ -30,9 +30,29 @@ DEBUG = True
 ALLOWED_HOSTS = ["*"]
 
 
+CORS_ALLOWED_ORIGINS = [
+    "http://127.0.0.1:5500",  # Allow requests from your local frontend
+]
+
 CSRF_TRUSTED_ORIGINS = [
-    "https://bloodbridge-backend-31a2.onrender.com",  
-    "http://127.0.0.1:5500"  
+    "http://127.0.0.1:5500",
+]
+
+CORS_ALLOW_CREDENTIALS = True  # Allow authentication-related requests
+
+CORS_ALLOW_METHODS = [  # Allow common HTTP methods
+    "GET",
+    "POST",
+    "PUT",
+    "PATCH",
+    "DELETE",
+    "OPTIONS",
+]
+
+CORS_ALLOW_HEADERS = [  # Allow essential request headers
+    "Authorization",
+    "Content-Type",
+    "X-CSRFToken",
 ]
 
 # Application definition
@@ -55,9 +75,9 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
