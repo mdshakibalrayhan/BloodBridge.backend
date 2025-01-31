@@ -101,3 +101,4 @@ class UserLogoutView(APIView):
 "username":"hasib",
 "password":"super1234"
 }'''
+#https://bloodbridge-backend-31a2.onrender.com/event/update_event/1/

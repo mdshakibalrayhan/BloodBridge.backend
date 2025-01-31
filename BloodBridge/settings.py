@@ -32,7 +32,7 @@ ALLOWED_HOSTS = ["*"]
 
 CSRF_TRUSTED_ORIGINS = [
     "https://bloodbridge-backend-31a2.onrender.com",  
-    "https://your-frontend-domain.com"  
+    "http://127.0.0.1:5500"  
 ]
 
 # Application definition
