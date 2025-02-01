@@ -47,10 +47,12 @@ class UserProfilesSerializer(serializers.ModelSerializer):
     def get_image(self, obj):
         request = self.context.get('request')
         if obj.user.image:
-            # Use build_absolute_uri to create the correct absolute URL
             image_url = obj.user.image.url
-            return request.build_absolute_uri(image_url) if request else f"{settings.MEDIA_URL}{image_url}"
+            full_url = request.build_absolute_uri(image_url) if request else f"{settings.MEDIA_URL}{image_url}"
+            print(f"Generated Image URL: {full_url}")  # Log the generated URL
+            return full_url
         return None
+
 
 
 
