@@ -73,7 +73,6 @@ class RegistrationSerializer(serializers.ModelSerializer):
             address=address,
             gender=gender,
             blood_group=blood_group,
-            image=image,
             birth_date=birth_date
         )
         user_account.save()
@@ -81,6 +80,7 @@ class RegistrationSerializer(serializers.ModelSerializer):
         user_profile = UserProfiles(
             user = UserAccount.objects.get(user_account=user),
             age = age,
+            image=image,
             is_available=available_for_donation,
         )
         user_profile.save()

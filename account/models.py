@@ -9,7 +9,6 @@ class UserAccount(models.Model):
     address = models.CharField(max_length=150)
     gender = models.CharField(choices=GENDER,max_length=10)
     blood_group = models.CharField(choices=BLOOD_GROUP,max_length=5)
-    image = models.ImageField(upload_to='account/images/')
     birth_date = models.DateField()
     created_on = models.DateTimeField(auto_now_add=True)
 

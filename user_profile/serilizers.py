@@ -10,7 +10,6 @@ class UserProfilesSerializer(serializers.ModelSerializer):
     phone_number = serializers.SerializerMethodField()
     gender = serializers.SerializerMethodField()
     address = serializers.SerializerMethodField()
-    image = serializers.SerializerMethodField()
     birth_date = serializers.SerializerMethodField()
     blood_group = serializers.SerializerMethodField()
        
@@ -41,21 +40,6 @@ class UserProfilesSerializer(serializers.ModelSerializer):
     def get_gender(self, obj):
         # Accessing gender via the related UserAccount
         return obj.user.gender
-
-
-
-    def get_image(self, obj):
-        request = self.context.get('request')
-        if obj.user.image:
-            image_url = obj.user.image.url
-            full_url = request.build_absolute_uri(image_url) if request else f"{settings.MEDIA_URL}{image_url}"
-            print(f"Generated Image URL: {full_url}")  # Log the generated URL
-            return full_url
-        return None
-
-
-
-
 
     def get_birth_date(self, obj):
         # Accessing birth_date via the related UserAccount
