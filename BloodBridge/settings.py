@@ -31,16 +31,21 @@ ALLOWED_HOSTS = ["*"]
 
 
 CORS_ALLOWED_ORIGINS = [
-    "http://127.0.0.1:5500",  # Allow requests from your local frontend
+    "http://127.0.0.1:5500",   
+    "https://bloodbridge-backend-31a2.onrender.com",   
 ]
+
 
 CSRF_TRUSTED_ORIGINS = [
-    "http://127.0.0.1:5500",
+    "http://127.0.0.1:5500",  
+    "https://bloodbridge-backend-31a2.onrender.com",   
 ]
 
-CORS_ALLOW_CREDENTIALS = True  # Allow authentication-related requests
+CORS_ALLOW_ALL_ORIGINS = True  
 
-CORS_ALLOW_METHODS = [  # Allow common HTTP methods
+CORS_ALLOW_CREDENTIALS = True   
+
+CORS_ALLOW_METHODS = [   
     "GET",
     "POST",
     "PUT",
@@ -49,7 +54,7 @@ CORS_ALLOW_METHODS = [  # Allow common HTTP methods
     "OPTIONS",
 ]
 
-CORS_ALLOW_HEADERS = [  # Allow essential request headers
+CORS_ALLOW_HEADERS = [   
     "Authorization",
     "Content-Type",
     "X-CSRFToken",
