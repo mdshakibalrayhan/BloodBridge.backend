@@ -5,7 +5,7 @@ from donation.models import Donation
 class UserProfiles(models.Model):
     user = models.OneToOneField(UserAccount,on_delete=models.CASCADE)
     age = models.IntegerField(blank=True,null=True)
-    image = models.ImageField(upload_to='account/images/',null=True,blank=True)
+    image = models.ImageField(upload_to='user_profile/images/',null=True,blank=True)
     is_available = models.BooleanField(default=True,null=True)
     last_donation_date = models.DateTimeField(null=True, blank=True)
 
