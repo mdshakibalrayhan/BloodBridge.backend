@@ -1,6 +1,8 @@
 from rest_framework import serializers
 from .models import UserProfiles
 from account.models import UserAccount
+from django.conf import settings
+
 class UserProfilesSerializer(serializers.ModelSerializer):
     #user = serializers.StringRelatedField(many=False)
     first_name = serializers.SerializerMethodField()
@@ -11,7 +13,8 @@ class UserProfilesSerializer(serializers.ModelSerializer):
     image = serializers.SerializerMethodField()
     birth_date = serializers.SerializerMethodField()
     blood_group = serializers.SerializerMethodField()
-     
+       
+
     class Meta:
         model = UserProfiles
         fields = [
@@ -39,17 +42,13 @@ class UserProfilesSerializer(serializers.ModelSerializer):
         # Accessing gender via the related UserAccount
         return obj.user.gender
 
-    def get_image(self, obj):
-        request = self.context.get('request')  # Request context ta niye asho
-        if obj.user.image:
-            image_url = obj.user.image.url  # Relative image URL
-            
-            # Ensure no double slash issues
-            if request:
-                return request.build_absolute_uri(image_url).replace("///", "//")
-            else:
-                return image_url  # If request is not available, return relative URL
-        return None
+
+def get_image(self, obj):
+    request = self.context.get('request')
+    if obj.user.image:
+        return request.build_absolute_uri(obj.user.image.url) if request else f"{settings.MEDIA_URL}{obj.user.image.url}"
+    return None
+
 
 
     def get_birth_date(self, obj):

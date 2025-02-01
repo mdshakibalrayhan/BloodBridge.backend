@@ -24,8 +24,10 @@ class FilterDonors(filters.BaseFilterBackend):
 class AvailableDonorsView(APIView):
     def get(self, request):
         donors = UserProfiles.objects.filter(is_available=True)
-        serializer = serilizers.UserProfilesSerializer(donors, many=True, context={'request': request})
+        filtered_donors = FilterDonors().filter_queryset(request, donors, self)  # Apply filter
+        serializer = serilizers.UserProfilesSerializer(filtered_donors, many=True, context={'request': request})
         return Response(serializer.data)
+
     
 class UserProfileViewset(APIView):
     def get(self, request):
