@@ -31,9 +31,10 @@ ALLOWED_HOSTS = ["*"]
 
 
 CORS_ALLOWED_ORIGINS = [
-    "http://127.0.0.1:5500",   
-    "https://bloodbridge-backend-31a2.onrender.com",   
+    "http://127.0.0.1:5500",  # For local dev (if you’re using a frontend in a different port)
+    "https://bloodbridge-backend-31a2.onrender.com",  # Your production domain
 ]
+
 
 
 CSRF_TRUSTED_ORIGINS = [
@@ -59,6 +60,11 @@ CORS_ALLOW_HEADERS = [
     "Content-Type",
     "X-CSRFToken",
 ]
+
+
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'  
 
 # Application definition
 
@@ -150,7 +156,7 @@ REST_FRAMEWORK = {
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'Asia/Kolkata'
+TIME_ZONE = 'Asia/Dhaka'
 
 USE_I18N = True
 

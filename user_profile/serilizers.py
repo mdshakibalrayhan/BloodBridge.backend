@@ -43,11 +43,14 @@ class UserProfilesSerializer(serializers.ModelSerializer):
         return obj.user.gender
 
 
-def get_image(self, obj):
-    request = self.context.get('request')
-    if obj.user.image:
-        return request.build_absolute_uri(obj.user.image.url) if request else f"{settings.MEDIA_URL}{obj.user.image.url}"
-    return None
+
+    def get_image(self, obj):
+        request = self.context.get('request')
+        if obj.user.image:
+            # This will create the full absolute URL, either for development or production
+            return request.build_absolute_uri(obj.user.image.url) if request else f"{settings.MEDIA_URL}{obj.user.image.url}"
+        return None
+
 
 
 
