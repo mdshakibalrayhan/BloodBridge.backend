@@ -40,16 +40,17 @@ class UserProfilesSerializer(serializers.ModelSerializer):
         return obj.user.gender
 
     def get_image(self, obj):
-        """
-        Returns the full URL of the image if it exists.
-        """
-        request = self.context.get('request')  # Get request context
+        request = self.context.get('request')  # Request context ta niye asho
         if obj.user.image:
-            image_url = obj.user.image.url  # Relative URL
-            if request is not None:
-                return request.build_absolute_uri(image_url).replace('http:/', 'http://').replace('https:/', 'https://')  # Fix double slashes
-            return image_url
+            image_url = obj.user.image.url  # Relative image URL
+            
+            # Ensure no double slash issues
+            if request:
+                return request.build_absolute_uri(image_url).replace("///", "//")
+            else:
+                return image_url  # If request is not available, return relative URL
         return None
+
 
     def get_birth_date(self, obj):
         # Accessing birth_date via the related UserAccount
