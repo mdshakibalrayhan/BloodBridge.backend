@@ -47,7 +47,7 @@ class UserProfilesSerializer(serializers.ModelSerializer):
         if obj.user.image:
             image_url = obj.user.image.url  # Relative URL
             if request is not None:
-                return request.build_absolute_uri(image_url)  # Convert to full URL
+                return request.build_absolute_uri(image_url).replace('http:/', 'http://').replace('https:/', 'https://')  # Fix double slashes
             return image_url
         return None
 
