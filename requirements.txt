@@ -1,7 +1,10 @@
 asgiref
+certifi
+cloudinary
 crispy-bootstrap5
 dj-database-url
 Django
+django-cors-headers
 django-crispy-forms
 django-debug-toolbar
 django-email
@@ -15,7 +18,8 @@ packaging
 pillow
 psycopg2
 psycopg2-binary
+six
 sqlparse
 typing_extensions
 tzdata
-django-cors-headers
+urllib3
