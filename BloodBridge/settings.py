@@ -63,8 +63,18 @@ CORS_ALLOW_HEADERS = [
 
 
 
+import os
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'  
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# Allow serving media files in production (for testing)
+if not DEBUG:
+    import mimetypes
+    mimetypes.add_type("image/png", ".png", True)
+    mimetypes.add_type("image/jpeg", ".jpg", True)
 
 # Application definition
 
