@@ -32,9 +32,10 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:5500",  # Local frontend
 ]
 CSRF_TRUSTED_ORIGINS = [
-    "http://127.0.0.1:5500",
-
+    "https://bloodbridge-backend-31a2.onrender.com",
+    "http://127.0.0.1:5500",  # Keep local frontend if needed
 ]
+
 CORS_ALLOW_CREDENTIALS = True  
 CORS_ALLOW_METHODS = ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
 CORS_ALLOW_HEADERS = ["Authorization", "Content-Type", "X-CSRFToken"]
