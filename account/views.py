@@ -12,6 +12,7 @@ from django.template.loader import render_to_string
 from django.core.mail import EmailMultiAlternatives
 from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
+from BloodBridge.settings import SITE_URL
 # Create your views here.
 
 class UserAccountViewset(viewsets.ModelViewSet):
@@ -33,7 +34,7 @@ class UserregistrationAPIView(APIView):
             uid = urlsafe_base64_encode(force_bytes(user.pk))
             print(uid)
 
-            confirm_link = f"http://127.0.0.1:8000/account/active/{uid}/{token}"
+            confirm_link = f"{SITE_URL}/account/active/{uid}/{token}"
             email_subject = "Confim Your Email"
             email_body = render_to_string('confirm_email.html',{'confirm_link':confirm_link})
             email = EmailMultiAlternatives(email_subject,'',to={user.email})

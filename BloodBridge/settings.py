@@ -35,6 +35,7 @@ CSRF_TRUSTED_ORIGINS = [
     "https://bloodbridge-backend-31a2.onrender.com",
     "http://127.0.0.1:5500",  # Keep local frontend if needed
 ]
+SITE_URL = "https://bloodbridge-backend-31a2.onrender.com"
 
 CORS_ALLOW_CREDENTIALS = True  
 CORS_ALLOW_METHODS = ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
