@@ -13,6 +13,10 @@ from django.core.mail import EmailMultiAlternatives
 from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
 from BloodBridge.settings import SITE_URL
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
 # Create your views here.
 
 class UserAccountViewset(viewsets.ModelViewSet):
@@ -57,10 +61,12 @@ def Activate(request,uid64,token):
         return redirect('login')
     else:
         return redirect('register')
-
+    
+    
+@method_decorator(csrf_exempt, name="dispatch")
 class UserLoginAPIView(APIView):
     def post(self,request):
-        serializer = UserLoginSerializer(data=self.request.data)
+        serializer = UserLoginSerializer(data=request.data)
         if serializer.is_valid():
             username = serializer.validated_data['username']
             password = serializer.validated_data['password']
@@ -80,23 +86,16 @@ class UserLoginAPIView(APIView):
 
 
 class UserLogoutView(APIView):
-    def get(self, request):
-        # Check if the user is authenticated
-        if request.user.is_authenticated:
-            try:
-                # Delete the token to log out the user
-                request.user.auth_token.delete()
-            except Token.DoesNotExist:
-                print(request.user)
-                return Response({"error": "Token does not exist for the user."})
+    authentication_classes = [TokenAuthentication]  # ✅ Enforce token authentication
+    permission_classes = [IsAuthenticated]  # ✅ Ensure only logged-in users can access
 
-            # Log out the user session
-            logout(request)
-            return redirect('login')
-        else:
-            print('un authenticated')
-            # If the user is not authenticated, redirect to login page
-            return Response('token does not exist')
+    def get(self, request):
+        try:
+            request.user.auth_token.delete()  # ✅ Delete token
+            logout(request)  # ✅ Log out session
+            return Response({"message": "Logged out successfully."}, status=200)
+        except Token.DoesNotExist:
+            return Response({"error": "Token does not exist."}, status=400)
 
 '''{
 "username":"hasib",
