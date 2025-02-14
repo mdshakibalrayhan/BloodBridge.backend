@@ -2,10 +2,13 @@ from django.shortcuts import render
 from .models import UserProfiles
 from . import serilizers
 from rest_framework.views import APIView
+from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 from rest_framework import filters
 from account.models import UserAccount
 from django.contrib.auth.models import User
+from .models import UserProfiles
+from rest_framework.permissions import IsAuthenticated
 # Create your views here.
 # '''
 class FilterDonors(filters.BaseFilterBackend):
@@ -14,8 +17,9 @@ class FilterDonors(filters.BaseFilterBackend):
         
         if id:
             # Capitalize the blood group to match the format (e.g., 'b+' -> 'B+')
+            id = id.upper().strip() + '+'
             print(id)
-            queryset = queryset.filter(id=id)
+            queryset = queryset.filter(blood_group=id)
             print('filter successfull')
         
         
@@ -24,16 +28,28 @@ class FilterDonors(filters.BaseFilterBackend):
 class AvailableDonorsView(APIView):
     def get(self, request):
         donors = UserProfiles.objects.filter(is_available=True)
+        print(donors)
         filtered_donors = FilterDonors().filter_queryset(request, donors, self)  # Apply filter
         serializer = serilizers.UserProfilesSerializer(filtered_donors, many=True, context={'request': request})
         return Response(serializer.data)
 
     
 class UserProfileViewset(APIView):
+    permission_classes = [IsAuthenticated]  # Ensures only authenticated users can access
+
     def get(self, request):
-        user = UserProfiles.objects.get(user=UserAccount.objects.get(user_account=request.user))
-        serializer = serilizers.UserProfilesSerializer(user)
-        return Response(serializer.data)
+        if not request.user.is_authenticated:
+            return Response({"error": "User is not authenticated"}, status=401)
+
+        try:
+            user_account = UserAccount.objects.get(user_account=request.user)
+            user_profile = UserProfiles.objects.get(user=user_account)
+            serializer = serilizers.UserProfilesSerializer(user_profile)
+            return Response(serializer.data)
+        except UserAccount.DoesNotExist:
+            return Response({"error": "UserAccount not found"}, status=404)
+        except UserProfiles.DoesNotExist:
+            return Response({"error": "UserProfiles not found"}, status=404)
     
 
 class UserProfileUpdateView(APIView):
