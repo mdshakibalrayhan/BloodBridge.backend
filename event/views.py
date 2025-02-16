@@ -29,18 +29,17 @@ class FilterEvents(filters.BaseFilterBackend):
         blood = request.query_params.get("blood")
         
         if blood:
-            # Capitalize the blood group to match the format (e.g., 'b+' -> 'B+')
+
             print(blood)
             blood = blood.upper()
             blood = blood.replace(' ','+')
             print(blood)
 
-            # Check if the blood group is valid from the choices
-            if blood in dict(BLOOD_GROUP):  # Assuming BLOOD_GROUP is a list of tuples
+            if blood in dict(BLOOD_GROUP): 
                 queryset = queryset.filter(blood_group=blood)
                 print('filter successfull')
             else:
-                # If blood group is invalid, return empty queryset (or you can handle it differently)
+                
                 queryset = queryset.none()
         
         return queryset
@@ -52,6 +51,13 @@ class AllOnGoingEventsView(APIView):
         serializer = serializers.AllEventSerializer(filtered_events, many=True)
         return Response(serializer.data)
 
+class UserSpecificEventsView(APIView):
+    def get(self, request):
+        user = UserAccount(user_account = request.user)
+        events = models.AllEvent.objects.filter(creator = user)
+        filtered_events = FilterEvents().filter_queryset(request, events, self)
+        serializer = serializers.AllEventSerializer(filtered_events, many=True)
+        return Response(serializer.data)
 
 class UpdateEventView(APIView):
     def get(self, request, pk):  # Add this method

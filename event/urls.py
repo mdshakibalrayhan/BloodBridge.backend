@@ -8,6 +8,7 @@ router = DefaultRouter()
 urlpatterns = [
     path('', include(router.urls)),
     path('all_events/',views.AllOnGoingEventsView.as_view(),name='all_events'),
+    path('user_specific_event/',views.UserSpecificEventsView.as_view(),name='user_specific_event'),
     path('add_event/',views.AddEventSerializerViewset.as_view(),name='add_event'),
     path('update_event/<int:pk>/',views.UpdateEventView.as_view(),name='update_event'),
 ]

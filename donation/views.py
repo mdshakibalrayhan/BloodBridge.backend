@@ -36,6 +36,7 @@ class DonationSerializerViewset(APIView):
 
 class DonationHistory(APIView):
     def get(self, request):
-        events = models.Donation.objects.all()
+        print(request.user)
+        events = models.Donation.objects.filter(donor=request.user)
         serializer = serializers.AllDonationSerializer(events, many=True)
         return Response(serializer.data)

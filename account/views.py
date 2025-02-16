@@ -63,39 +63,30 @@ def Activate(request,uid64,token):
         return redirect('register')
     
     
-@method_decorator(csrf_exempt, name="dispatch")
-class UserLoginAPIView(APIView):
-    def post(self,request):
-        serializer = UserLoginSerializer(data=request.data)
+class UserLoginApiView(APIView):
+    def post(self, request):
+        serializer = UserLoginSerializer(data = self.request.data)
         if serializer.is_valid():
             username = serializer.validated_data['username']
             password = serializer.validated_data['password']
 
-            user = authenticate(username=username,password=password)
+            user = authenticate(username= username, password=password)
+
             if user:
-                token,_ = Token.objects.get_or_create(user=user)
-                print(user)
-                login(request,user)
+                token, _ = Token.objects.get_or_create(user=user)
                 print(token)
                 print(_)
-                return Response({'token':token.key,'user_id':user.id})
+                login(request, user)
+                return Response({'token' : token.key, 'user_id' : user.id})
             else:
-                return Response({'error':'Invalid credential'})
+                return Response({'error' : "Invalid Credential"})
         return Response(serializer.errors)
 
-
-
 class UserLogoutView(APIView):
-    authentication_classes = [TokenAuthentication]  # ✅ Enforce token authentication
-    permission_classes = [IsAuthenticated]  # ✅ Ensure only logged-in users can access
-
     def get(self, request):
-        try:
-            request.user.auth_token.delete()  # ✅ Delete token
-            logout(request)  # ✅ Log out session
-            return Response({"message": "Logged out successfully."}, status=200)
-        except Token.DoesNotExist:
-            return Response({"error": "Token does not exist."}, status=400)
+        request.user.auth_token.delete()
+        logout(request)
+        return redirect('login')
 
 '''{
 "username":"hasib",
