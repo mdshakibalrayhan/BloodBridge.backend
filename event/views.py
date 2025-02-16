@@ -53,7 +53,7 @@ class AllOnGoingEventsView(APIView):
 
 class UserSpecificEventsView(APIView):
     def get(self, request):
-        user = UserAccount(user_account = request.user)
+        user = UserAccount.objects.get(user_account = request.user)
         events = models.AllEvent.objects.filter(creator = user)
         filtered_events = FilterEvents().filter_queryset(request, events, self)
         serializer = serializers.AllEventSerializer(filtered_events, many=True)
