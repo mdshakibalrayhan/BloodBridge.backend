@@ -63,6 +63,7 @@ class UserSpecificEventsView(APIView):
 
 @method_decorator(csrf_exempt, name='dispatch')
 class UpdateEventView(APIView):
+    http_method_names = ['get', 'patch']
     def get(self, request, pk):
         try:
             event = models.AllEvent.objects.get(pk=pk)
