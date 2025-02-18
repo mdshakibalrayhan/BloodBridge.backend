@@ -8,6 +8,8 @@ from rest_framework.response import Response
 from rest_framework import filters
 from.constants import BLOOD_GROUP
 from django.shortcuts import get_object_or_404
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
 
 # Create your views here.
 
@@ -59,8 +61,9 @@ class UserSpecificEventsView(APIView):
         serializer = serializers.AllEventSerializer(filtered_events, many=True)
         return Response(serializer.data)
 
+@method_decorator(csrf_exempt, name='dispatch')
 class UpdateEventView(APIView):
-    def get(self, request, pk):  # Add this method
+    def get(self, request, pk):
         try:
             event = models.AllEvent.objects.get(pk=pk)
             serializer = serializers.AllEventSerializer(event)
