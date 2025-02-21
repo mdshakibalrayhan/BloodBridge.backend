@@ -8,11 +8,16 @@ from rest_framework.response import Response
 from django.utils.timezone import now
 from user_profile.models import UserProfiles
 from rest_framework.exceptions import ValidationError
+from .models import Donation
 # Create your views here.
 
 class DonationSerializerViewset(APIView):
     #queryset = models.Donation.objects.all()
-    serializer_class = serializers.DonationSerializer
+    def get(self, request):
+        donations = Donation.objects.all()
+        serializer = serializers.AllDonationSerializer(donations,many=True)
+        return Response(serializer.data)
+    
     def post(self,request):
         serializer = self.serializer_class(data=request.data)
 
@@ -26,9 +31,6 @@ class DonationSerializerViewset(APIView):
                 )
             else:
                 data = serializer.save(donor=UserAccount.objects.get(user_account=request.user),donation_date=now(),donated_blood_group=donated_blood)
-                user_profile = UserProfiles.objects.get(user=UserAccount.objects.get(user_account=request.user))
-                user_profile.last_donation_date = now()
-                user_profile.save()
                 print(data)
             
         return Response(serializer.errors)
@@ -40,4 +42,11 @@ class DonationHistory(APIView):
         user = UserAccount.objects.get(user_account = request.user)
         events = models.Donation.objects.filter(donor=user)
         serializer = serializers.AllDonationSerializer(events, many=True)
+        return Response(serializer.data)
+    
+class  RequestOfSpecificEvent(APIView):
+    def get(self, request,pk):
+        print(request.user)
+        Requests = models.Donation.objects.filter(pk=pk)
+        serializer = serializers.AllDonationSerializer(Requests, many=True)
         return Response(serializer.data)
