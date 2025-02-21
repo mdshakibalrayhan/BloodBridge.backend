@@ -16,7 +16,6 @@ class FilterDonors(filters.BaseFilterBackend):
         id = request.query_params.get("id")
         
         if id:
-            # Capitalize the blood group to match the format (e.g., 'b+' -> 'B+')
             id = id.upper().strip() + '+'
             print(id)
             queryset = queryset.filter(blood_group=id)
@@ -29,13 +28,13 @@ class AvailableDonorsView(APIView):
     def get(self, request):
         donors = UserProfiles.objects.filter(is_available=True)
         print(donors)
-        filtered_donors = FilterDonors().filter_queryset(request, donors, self)  # Apply filter
+        filtered_donors = FilterDonors().filter_queryset(request, donors, self)  
         serializer = serilizers.UserProfilesSerializer(filtered_donors, many=True, context={'request': request})
         return Response(serializer.data)
 
     
 class UserProfileViewset(APIView):
-    permission_classes = [IsAuthenticated]  # Ensures only authenticated users can access
+    permission_classes = [IsAuthenticated]  
 
     def get(self, request):
         if not request.user.is_authenticated:
@@ -59,7 +58,6 @@ class UserProfileUpdateView(APIView):
         return user_profile
     
     def patch(self, request, *args, **kwargs):
-        """Handle patch request to update user profile"""
         user_profile = self.get_object(request) 
         user_account = user_profile.user
         user = user_account.user_account
@@ -81,6 +79,5 @@ class UserProfileUpdateView(APIView):
         
         if serializer.is_valid(): 
             serializer.save() 
-             # Save the updated data
-            return Response(serializer.data)  # Return updated data in the response
+            return Response(serializer.data)   
         return Response(serializer.errors, status=400)

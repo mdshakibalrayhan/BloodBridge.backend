@@ -29,11 +29,11 @@ ALLOWED_HOSTS = ["*"]
 # CORS Settings (Corrected)
 CORS_ALLOW_ALL_ORIGINS = False  # More secure than True
 CORS_ALLOWED_ORIGINS = [
-    "http://127.0.0.1:5500",  # Local frontend
+    "http://127.0.0.1:5501",  # Local frontend
 ]
 CSRF_TRUSTED_ORIGINS = [
     "https://bloodbridge-backend-31a2.onrender.com",
-    "http://127.0.0.1:5500",  # Keep local frontend if needed
+    "http://127.0.0.1:5501",  # Keep local frontend if needed
 ]
 SITE_URL = "https://bloodbridge-backend-31a2.onrender.com"
 
