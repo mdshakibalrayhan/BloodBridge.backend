@@ -82,7 +82,7 @@ class UpdateRequest(APIView):
         serializer = serializers.AllDonationSerializer(request_instance)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    def post(self, request, pk):
+    def patch(self, request, pk):
         request_instance = get_object_or_404(Donation, pk=pk)
 
         # Update request status
