@@ -33,7 +33,8 @@ CORS_ALLOWED_ORIGINS = [
 ]
 CSRF_TRUSTED_ORIGINS = [
     "https://bloodbridge-backend-31a2.onrender.com",
-    "http://127.0.0.1:5501",  # Keep local frontend if needed
+    "http://127.0.0.1:5501",# Keep local frontend if needed
+    "https://mdshakibalrayhan.github.io/BloodBridge_frontend/",  
 ]
 SITE_URL = "https://bloodbridge-backend-31a2.onrender.com"
 
