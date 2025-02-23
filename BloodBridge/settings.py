@@ -29,7 +29,7 @@ ALLOWED_HOSTS = ["*"]
 # CORS Settings (Corrected)
 CORS_ALLOW_ALL_ORIGINS = False  # More secure than True
 CORS_ALLOWED_ORIGINS = [
-    "http://127.0.0.1:5501",# Local frontend
+    "http://127.0.0.1:5500",# Local frontend
     "https://mdshakibalrayhan.github.io",
   
 ]
